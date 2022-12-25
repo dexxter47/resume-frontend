@@ -9,7 +9,7 @@ import { Visitor } from './visitor.model';
 export class ResumeService {
   url: string;
   constructor(private httpClient: HttpClient) {
-    this.url = 'http://localhost:8080';
+    this.url = 'https://resume-backend-fzmay7cuha-el.a.run.app';
    }
 
   getVisitors(): Observable<Visitor> {
