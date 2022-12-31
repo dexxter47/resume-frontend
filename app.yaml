@@ -1,13 +1,21 @@
-steps:
+runtime: python27
+api_version: 1
+threadsafe: yes
 
-  # Install node packages
-  - name: "gcr.io/cloud-builders/npm:latest"
-    args: ["install"]
+handlers:
+  - url: /
+    static_files: dist/resume-app/index.html
+    upload: dist/resume-app/index.html
 
-  # Build production package
-  - name: "gcr.io/{projectId}/ng"
-    args: ["build", "--prod"]
+  - url: /
+    static_dir: dist/resume-app
 
-  # Deploy to google cloud app engine
-  - name: "gcr.io/cloud-builders/gcloud"
-    args: ["app", "deploy", "--version=prod"]
+skip_files:
+  - e2e/
+  - node_modules/
+  - src/
+  - ^(.*/)?\..*$
+  - ^(.*/)?.*\.json$
+  - ^(.*/)?.*\.md$
+  - ^(.*/)?.*\.yaml$
+  - ^LICENSE

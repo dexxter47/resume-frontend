@@ -1,19 +1,13 @@
-runtime: python27
+steps:
 
-handlers:
-  - url: /
-    static_files: dist/resume-app/index.html
-    upload: dist/resume-app/index.html
+  # Install node packages
+  - name: "gcr.io/cloud-builders/npm:latest"
+    args: ["install"]
 
-  - url: /
-    static_dir: dist/resume-app
+  # Build production package
+  - name: "gcr.io/{projectId}/ng"
+    args: ["build", "--prod"]
 
-skip_files:
-  - e2e/
-  - node_modules/
-  - src/
-  - ^(.*/)?\..*$
-  - ^(.*/)?.*\.json$
-  - ^(.*/)?.*\.md$
-  - ^(.*/)?.*\.yaml$
-  - ^LICENSE
+  # Deploy to google cloud app engine
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy", "--version=prod"]
